@@ -1,0 +1,31 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
+<head>
+    <title>DropZone</title>
+    <link href="asset/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="dropzone"></div>
+
+<script src="vendor/phaser/phaser.min.js"></script>
+<script src="asset/js/state/boot.js"></script>
+<script src="asset/js/state/preload.js"></script>
+<script src="asset/js/state/menu.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+    var width  = window.innerWidth,
+        height = window.innerHeight,
+        game   = new Phaser.Game(width, height, Phaser.AUTO, 'dropzone');
+
+    game.state.add('boot',    new Boot(game));
+    game.state.add('preload', new Preload(game));
+    game.state.add('menu',    new Menu(game));
+
+    game.state.start('boot');
+};
+</script>
+</body>
+</html>
