@@ -18,6 +18,10 @@
 <script src="asset/js/state/play.js"></script>
 
 <script src="asset/js/prefab/plane.js"></script>
+<script src="asset/js/prefab/box.js"></script>
+<script src="asset/js/prefab/wave.js"></script>
+
+<script src="asset/js/game.js"></script>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -31,16 +35,7 @@ window.onload = function() {
         document.getElementById('dropzone').setAttribute('style', 'margin-top:' + top + 'px');
         document.getElementById('dropzone').style.marginTop = top + 'px';
     }
-
-    var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'dropzone');
-
-    // Add game screens
-    game.state.add('boot',    new Boot());
-    game.state.add('preload', new Preload());
-    game.state.add('menu',    new Menu());
-    game.state.add('play',    new Play());
-
-    game.state.start('boot');
+    new Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'dropzone');
 };
 </script>
 </body>

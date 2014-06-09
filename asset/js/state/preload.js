@@ -22,6 +22,7 @@ Preload.prototype = {
         this.load.image('cloud', 'asset/img/cloud.png');
 
         this.load.spritesheet('planes', 'asset/img/planes.png', 494, 155, 4);
+        this.load.spritesheet('boxes', 'asset/img/boxes.png', 110, 109, 3);
     },
 
     create: function() {
