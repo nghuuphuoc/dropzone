@@ -12,6 +12,15 @@ Preload.prototype = {
         this.load.setPreloadSprite(this.asset);
 
         this.load.image('background', 'asset/img/background.png');
+        this.load.image('wave', 'asset/img/wave.png');
+        this.load.image('sea', 'asset/img/sea.png');
+        this.load.image('title', 'asset/img/title.png');
+        this.load.image('plane', 'asset/img/plane.png');
+        this.load.image('island', 'asset/img/island.png');
+        this.load.image('startButton', 'asset/img/start.png');
+        this.load.image('cloud', 'asset/img/cloud.png');
+
+        this.load.spritesheet('planes', 'asset/img/planes.png', 494, 155, 4);
     },
 
     create: function() {
