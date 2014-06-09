@@ -3,12 +3,12 @@ function Menu() {
 };
 
 Menu.prototype = {
-    preload: function() {
+    create: function() {
         // Add background
         this.background = this.game.add.sprite(0, 0, 'background');
 
-        // Add cloud
-        this.cloud = this.game.add.sprite(0, 60, 'cloud');
+        // Add sky
+        this.sky = this.game.add.sprite(0, 60, 'sky');
 
         // Add wave
         this.sea = this.game.add.sprite(0, 684, 'sea');
@@ -38,18 +38,10 @@ Menu.prototype = {
         this.startButton.anchor.setTo(0.5, 0.5);
     },
 
-    create: function() {
-
-    },
-
-    update: function() {
-
-    },
-
     /**
      * Start the game
      */
     start: function() {
-
+        this.game.state.start('play');
     }
 };

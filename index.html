@@ -11,9 +11,14 @@
     <div id="dropzone" class="container"></div>
 
 <script src="vendor/phaser/phaser.min.js"></script>
+
 <script src="asset/js/state/boot.js"></script>
 <script src="asset/js/state/preload.js"></script>
 <script src="asset/js/state/menu.js"></script>
+<script src="asset/js/state/play.js"></script>
+
+<script src="asset/js/prefab/plane.js"></script>
+
 <script type="text/javascript">
 window.onload = function() {
     var GAME_WIDTH  = 1440,
@@ -33,6 +38,7 @@ window.onload = function() {
     game.state.add('boot',    new Boot());
     game.state.add('preload', new Preload());
     game.state.add('menu',    new Menu());
+    game.state.add('play',    new Play());
 
     game.state.start('boot');
 };
