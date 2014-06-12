@@ -17,7 +17,7 @@ Menu.prototype.create = function() {
     this.wave = this.game.add.tileSprite(0, h - 90, w, 90, 'wave');
     this.wave.autoScroll(-200, 0);
 
-    /* Create a title group */
+    // Create a title group
     this.titleGroup = this.game.add.group();
 
     this.title = this.game.add.sprite(w/2 - 500, 150, 'title');

@@ -28,7 +28,7 @@ Plane.prototype.constructor = Plane;
 Plane.prototype.dropBox = function() {
     this.frame = 1;
 
-    /* Create new box */
+    // Create new box
     var box = new Box(this.game, this.x + 90, this.y + 20, 0, this._playState);
     this.game.add.existing(box);
 
