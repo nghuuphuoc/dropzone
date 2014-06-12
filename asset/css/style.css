@@ -1,5 +1,6 @@
 body {
-    background: #000;
+    background: url(../img/background.png) top left no-repeat;
+    font-family: 'Lobster Two', cursive;
     margin: 0;
     padding: 0;
 }
