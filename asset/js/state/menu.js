@@ -13,7 +13,7 @@ Menu.prototype.create = function() {
     this.game.add.sprite(0, 0, 'background');
 
     // Add wave
-    this.sea = this.game.add.sprite(0, h - 90, 'sea');
+    this.game.add.sprite(0, h - 90, 'sea');
     this.wave = this.game.add.tileSprite(0, h - 90, w, 90, 'wave');
     this.wave.autoScroll(-200, 0);
 
@@ -33,11 +33,27 @@ Menu.prototype.create = function() {
     this.game.add.tween(this.titleGroup).to({ y: 10 }, 350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
     // Add island
-    this.island = this.game.add.sprite(w/2 - 224, h - 320, 'island');
+    this.game.add.sprite(w/2 - 224, h - 320, 'islandShadow');
 
     // Add Start button
-    this.startButton = this.game.add.button(w/2, h/2 - 50, 'startButton', this.onStartClick, this);
-    this.startButton.anchor.setTo(0.5, 0.5);
+    var styles = {
+        fontSize: '40px',
+        fontFamily: 'Pacifico',
+        fill: '#fcee21'
+    };
+
+    this._startButton = new LabelButton(this.game, w/2, h/2, 'button', this.onStartClick, this);
+    this._startButton.setLabel('START');
+    this._startButton.setStyles(styles);
+    this._startButton.anchor.setTo(0.5, 0.5);
+
+    this._configButton = new LabelButton(this.game, w/2, h/2 + 80, 'button', this.onConfigClick, this);
+    this._configButton.setLabel('CONFIG');
+    this._configButton.setStyles(styles);
+    this._configButton.anchor.setTo(0.5, 0.5);
+
+    this.game.add.existing(this._startButton);
+    this.game.add.existing(this._configButton);
 };
 
 /**
@@ -45,4 +61,11 @@ Menu.prototype.create = function() {
  */
 Menu.prototype.onStartClick = function() {
     this.game.state.start('play');
+};
+
+/**
+ * Config the game
+ */
+Menu.prototype.onConfigClick = function() {
+    //this.game.state.start('play');
 };

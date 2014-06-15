@@ -1,25 +1,16 @@
-var Plane = function(game, x, y, frame, playState) {
+var Plane = function(game, x, y, frame) {
     Phaser.Sprite.call(this, game, x, y, 'planes', frame);
+    this.anchor.setTo(0.5, 0.5);
 
     /**
      * @type {Play}
      */
-    this._playState = playState;
+    this._currentState = this.game.state.getCurrentState();
 
-    //    this.game.physics.arcade.enableBody(this);
-//    this.body.collideWorldBounds = true;
-//    this.game.physics.p2.enable(this);
-//    this.body.setZeroVelocity();
+    this._boxCollisionGroup = this.game.physics.p2.createCollisionGroup();
 
-//    this.game.physics.p2.enable(this, false);
-
-    this._boxes = this.game.add.group();
-//    this._boxes.enableBody = true;
-//    this._boxes.physicsBodyType = Phaser.Physics.P2JS;
-
-    this.anchor.setTo(0.5, 0.5);
-    //this.animations.add('fly');
-    //this.animations.play('fly', 1, false);
+//    this._sea = this._currentState.getSea();
+//    this._sea.body.collides(this._boxCollisionGroup, this.boxHitSea, this);
 };
 
 Plane.prototype = Object.create(Phaser.Sprite.prototype);
@@ -29,15 +20,19 @@ Plane.prototype.dropBox = function() {
     this.frame = 1;
 
     // Create new box
-    var box = new Box(this.game, this.x + 90, this.y + 20, 0, this._playState);
+    var box = new Box(this.game, this.x + 90, this.y + 20, 0);
     this.game.add.existing(box);
 
-    this._boxes.add(box);
+    //box.body.setCollisionGroup(this._boxCollisionGroup);
+    //box.body.collides(this._boxCollisionGroup, this.boxHitSea, this);
+};
+
+Plane.prototype.boxHitSea = function(sea, box) {
+    console.log(sea);
+    console.log(box);
 };
 
 Plane.prototype.update = function() {
-    //this.game.physics.p2.collide(this._boxes);
-
     this.x += 2;
     if (this.x >= this.game.world.width) {
         this.x     = 0;
