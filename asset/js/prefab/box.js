@@ -1,4 +1,4 @@
-var Box = function(game, x, y, frame) {
+var Box = function(game, x, y, frame, plane) {
     Phaser.Sprite.call(this, game, x, y, 'boxes', frame);
 
     this.name = 'box';
@@ -6,6 +6,11 @@ var Box = function(game, x, y, frame) {
 
 //    this.animations.add('fly');
 //    this.animations.play('fly', 1, true);
+
+    /**
+     * @type {Plane}
+     */
+    this._plane = plane;
 
     this.game.physics.p2.enable(this, true);
     this.body.clearShapes();
@@ -30,7 +35,6 @@ var Box = function(game, x, y, frame) {
     this._timer.loop(this.TIME_INTERVAL, this.updatePosition, this);
     this._timer.start();
 
-
     this._needToUpdate = true;
 };
 
@@ -39,8 +43,12 @@ Box.prototype.constructor = Box;
 
 Box.prototype.boxHit = function(body, shapeA, shapeB, equation) {
     if (body && body.sprite.name) {
-        console.log(body.sprite.name);
         switch (body.sprite.name) {
+            case 'island':
+                // Box hits the island
+                this._hitIsland = true;
+                break;
+
             case 'sea':
                 // Box hits the sea
                 this._hitSea = true;
@@ -48,11 +56,6 @@ Box.prototype.boxHit = function(body, shapeA, shapeB, equation) {
 
             case 'box':
                 // Box hits each other
-                break;
-
-            case 'island':
-                // Box hits the island
-                this._island = true;
                 break;
 
             default:
@@ -66,35 +69,55 @@ Box.prototype.update = function() {
         return;
     }
 
+    if (this._hitIsland) {
+        this.destroyBox();
+        return;
+    }
+
     if (this._hitSea) {
         this.body.y += 0.4;
         this.frame = 2;
 
         if (this.body.y > this.game.world.height + 20) {
-            // TODO: Destroy the sprite
-            // this.destroy();
-            this.body.removeFromWorld();
-            //this.body.destroy();
-            this._needToUpdate = false;
+            this.destroyBox();
         }
     }
 };
 
+/**
+ * Destroy the box
+ */
+Box.prototype.destroyBox = function() {
+    this._needToUpdate = false;
+    this._timer.stop();
+    this._timer.destroy();
+    var that = this;
+
+    // Since the last loop of timer might still call Box.prototype.update, I need to ensure the timer is really destroyed
+    var t = setTimeout(function() {
+        that.destroy();
+        clearTimeout(t);
+    }, 0);
+};
+
 Box.prototype.updatePosition = function() {
+    if (this._hitIsland) {
+        this._timer.stop();
+        this._timer.destroy();
+        this._plane.setHitBox(this);
+        return;
+    }
+
     if (this._hitSea) {
-        //this.game.time.events.remove(this._timer);
+        this.game.time.events.remove(this._timer);
         this._timer.destroy();
         this.body.clearShapes();
 
         this.body.y += 50;
         this.loadTexture('boxHitSea', 2);
 
+        this._plane.setMissBox(this);
         this.body.static = true;
-        return;
-    }
-
-    if (this._hitIsland) {
-        this._timer.destroy();
         return;
     }
 

@@ -16,6 +16,9 @@ Config.DEFAULT = {
     numBoxes: 8
 };
 
+// The setting key for local storage
+Config.SETTING_KEY = 'settings';
+
 Config.prototype.create = function() {
     var w = this.game.width,
         h = this.game.height;
@@ -80,7 +83,7 @@ Config.prototype.create = function() {
  * Load the settings
  */
 Config.load = function() {
-    var settings = localStorage.getItem('dropZoneSettings');
+    var settings = localStorage.getItem(Config.SETTING_KEY);
     if (settings) {
         settings = JSON.parse(settings);
     }
@@ -93,7 +96,7 @@ Config.load = function() {
  */
 Config.prototype.save = function(settings) {
     // Save the settings
-    localStorage.setItem('dropZoneSettings', JSON.stringify(settings));
+    localStorage.setItem(Config.SETTING_KEY, JSON.stringify(settings));
     this.cancel();
 };
 

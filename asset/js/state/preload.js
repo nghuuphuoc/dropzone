@@ -1,20 +1,25 @@
 var Preload = function() {
     Phaser.State.call(this);
 
-    this.asset = null;
-    this.ready = false;
+    this._asset = null;
+    this._ready = false;
 };
 
 Preload.prototype = Object.create(Phaser.State.prototype);
 Preload.prototype.constructor = Preload;
 
 Preload.prototype.preload = function() {
-    this.asset = this.add.sprite(this.game.width/2, this.game.height/2, 'preloader');
-    this.asset.anchor.setTo(0.5, 0.5);
+    var w = this.game.width,
+        h = this.game.height;
+
+    // Create loading asset
+    this._asset = this.add.sprite(w/2, h/2, 'preloader');
+    this._asset.anchor.setTo(0.5, 0.5);
 
     this.load.onLoadComplete.addOnce(this.onLoadCompleted, this);
-    this.load.setPreloadSprite(this.asset);
+    this.load.setPreloadSprite(this._asset);
 
+    // Images
     this.load.image('background', 'asset/img/background.png');
     this.load.image('wave', 'asset/img/wave.png');
     this.load.image('sea', 'asset/img/sea.png');
@@ -27,25 +32,30 @@ Preload.prototype.preload = function() {
     this.load.image('island', 'asset/img/island.png');
     this.load.image('gameOver', 'asset/img/gameOver.png');
 
+    // Sprites
     this.load.spritesheet('planes', 'asset/img/planes.png', 494, 155, 4);
     this.load.spritesheet('boxes', 'asset/img/boxes.png', 97, 108, 3);
     this.load.spritesheet('boxHitSea', 'asset/img/boxHitSea.png', 42, 42, 3);
     this.load.spritesheet('buttons', 'asset/img/buttons.png', 167, 81, 6);
 
+    // Fonts
+    this.load.bitmapFont('cooper', 'asset/font/cooper.png', 'asset/font/cooper.fnt');
+
+    // Physic data
     this.load.physics('physicsData', 'asset/img/sprites.json');
 };
 
 Preload.prototype.create = function() {
-    this.asset.cropEnabled = false;
+    this._asset.cropEnabled = false;
 };
 
 Preload.prototype.update = function() {
-    if (this.ready) {
-        //this.game.state.start('menu');
-        this.game.state.start('play');
+    if (this._ready) {
+        this.game.state.start('menu');
+        //this.game.state.start('gameOver');
     }
 };
 
 Preload.prototype.onLoadCompleted = function() {
-    this.ready = true;
+    this._ready = true;
 };
