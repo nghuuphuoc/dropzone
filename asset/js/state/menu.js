@@ -36,20 +36,10 @@ Menu.prototype.create = function() {
     this.game.add.sprite(w/2 - 224, h - 320, 'islandShadow');
 
     // Add Start button
-    var styles = {
-        fontSize: '40px',
-        fontFamily: 'Pacifico',
-        fill: '#fcee21'
-    };
-
-    this._startButton = new LabelButton(this.game, w/2, h/2, 'button', this.onStartClick, this);
-    this._startButton.setLabel('START');
-    this._startButton.setStyles(styles);
+    this._startButton = new Phaser.Button(this.game, w/2, h/2, 'buttons', this.onStartClick, this, 0, 0, 0);
     this._startButton.anchor.setTo(0.5, 0.5);
 
-    this._configButton = new LabelButton(this.game, w/2, h/2 + 80, 'button', this.onConfigClick, this);
-    this._configButton.setLabel('CONFIG');
-    this._configButton.setStyles(styles);
+    this._configButton = new Phaser.Button(this.game, w/2, h/2 + 100, 'buttons', this.onConfigClick, this, 3, 3, 3);
     this._configButton.anchor.setTo(0.5, 0.5);
 
     this.game.add.existing(this._startButton);
@@ -67,5 +57,5 @@ Menu.prototype.onStartClick = function() {
  * Config the game
  */
 Menu.prototype.onConfigClick = function() {
-    //this.game.state.start('play');
+    this.game.playNextState('config');
 };
