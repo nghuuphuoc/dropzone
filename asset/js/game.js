@@ -4,11 +4,12 @@ var Game = function(width, height, mode, element) {
     this._prevState = null;
 
     // Add game screens
-    this.state.add('boot',    Boot);
-    this.state.add('preload', Preload);
-    this.state.add('menu',    Menu);
-    this.state.add('config',  Config);
-    this.state.add('play',    Play);
+    this.state.add('boot',     Boot);
+    this.state.add('preload',  Preload);
+    this.state.add('menu',     Menu);
+    this.state.add('config',   Config);
+    this.state.add('play',     Play);
+    this.state.add('gameOver', GameOver);
 
     this.state.start('boot');
 };

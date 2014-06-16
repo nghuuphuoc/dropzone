@@ -35,7 +35,7 @@ Menu.prototype.create = function() {
     // Add island
     this.game.add.sprite(w/2 - 224, h - 320, 'islandShadow');
 
-    // Add Start button
+    // Add buttons
     this._startButton = new Phaser.Button(this.game, w/2, h/2, 'buttons', this.onStartClick, this, 0, 0, 0);
     this._startButton.anchor.setTo(0.5, 0.5);
 

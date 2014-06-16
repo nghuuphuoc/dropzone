@@ -8,7 +8,6 @@ var Box = function(game, x, y, frame) {
 //    this.animations.play('fly', 1, true);
 
     this.game.physics.p2.enable(this, true);
-//    this.body.velocity.y = 200;
     this.body.clearShapes();
     this.body.loadPolygon('physicsData', 'box');
 
@@ -70,7 +69,6 @@ Box.prototype.update = function() {
     if (this._hitSea) {
         this.body.y += 0.4;
         this.frame = 2;
-        console.log(this.body.y, this.game.world.height);
 
         if (this.body.y > this.game.world.height + 20) {
             // TODO: Destroy the sprite
