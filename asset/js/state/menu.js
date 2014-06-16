@@ -54,7 +54,7 @@ Menu.prototype.onStartClick = function() {
 };
 
 /**
- * Config the game
+ * Show the config form
  */
 Menu.prototype.onConfigClick = function() {
     this.game.playNextState('config');

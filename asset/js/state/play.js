@@ -42,9 +42,18 @@ Play.prototype.create = function() {
     this.game.add.existing(this._plane);
 
     // Add keyboard controls
-    this.dropKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    this.dropKey.onDown.add(this._plane.dropBox, this._plane);
+    this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.spaceKey.onDown.add(this._plane.dropBox, this._plane);
 
-    // Keep the space bar from propogating up to the browser
-    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+    this.escapeKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    this.escapeKey.onDown.add(this.showConfig, this);
+
+    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.ESC]);
+};
+
+/**
+ * Show the config form
+ */
+Play.prototype.showConfig = function() {
+    this.game.playNextState('config');
 };
