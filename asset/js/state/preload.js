@@ -33,7 +33,7 @@ Preload.prototype.preload = function() {
     this.load.image('gameOver', 'asset/img/gameOver.png');
 
     // Sprites
-    this.load.spritesheet('planes', 'asset/img/planes.png', 494, 155, 4);
+    this.load.spritesheet('planes', 'asset/img/planes.png', 497, 151.8, 5);
     this.load.spritesheet('boxes', 'asset/img/boxes.png', 97, 108, 3);
     this.load.spritesheet('boxHitSea', 'asset/img/boxHitSea.png', 42, 42, 3);
     this.load.spritesheet('buttons', 'asset/img/buttons.png', 167, 81, 6);
@@ -51,8 +51,8 @@ Preload.prototype.create = function() {
 
 Preload.prototype.update = function() {
     if (this._ready) {
-        this.game.state.start('menu');
-        //this.game.state.start('gameOver');
+        //this.game.state.start('menu');
+        this.game.state.start('play');
     }
 };
 
