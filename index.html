@@ -51,11 +51,28 @@
 <script src="asset/js/prefab/plane.js"></script>
 <script src="asset/js/prefab/box.js"></script>
 
+<script src="asset/js/ode.js"></script>
+<script src="asset/js/projectileOde.js"></script>
 <script src="asset/js/game.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
-    new Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'dropzone');
+//    new Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'dropzone');
+    var ode = new ProjectileOde(6, 0, 0, 10, Config.DEFAULT.vx0, Config.DEFAULT.vy0, Config.DEFAULT.vz0, 0);
+    ode.setArea(0.001432);
+    ode.setCd(1.05);
+    ode.setDensity(1.225);
+    ode.setMass(0.04);
+    ode.setWindVx(-10);
+    ode.setWindVy(0);
+
+    var t = 0, dt = 0.2, maxT = 5;
+    while (t <= maxT) {
+        ode.solve(dt);
+        //console.log(t, ode.getVelocity(), ode.getCoordinate());
+        console.log(t, ode.getCoordinate());
+        t += dt;
+    }
 });
 </script>
 </body>

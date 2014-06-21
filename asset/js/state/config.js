@@ -9,11 +9,17 @@ Config.prototype.constructor = Config;
  * The default settings
  */
 Config.DEFAULT = {
-    speed: 100,
-    height: 1000,
-    mass: 0.1,
-    diameter: 5,
-    numBoxes: 8
+    speed:      100,        // m/s
+    height:     1000,       // m
+    mass:       0.1,        // kg
+    diameter:   5,
+    numBoxes:   8,
+    vx0:        30,         // X-Velocity (m/s)
+    vy0:        0,          // Y-Velocity (m/s)
+    vz0:        35,         // Z-Velocity (m/s)
+    cd:         1.05,       // Drag coefficients (1.05 - 1.07 for cube)
+    density:    1.225,      // kg/m3
+    area:       0.001432    // m2
 };
 
 // The setting key for local storage
