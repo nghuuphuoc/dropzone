@@ -16,24 +16,23 @@
                 <input type="text" name="speed" />
             </div>
             <div class="row">
-                <label>Plane height (m):</label>
-                <input type="text" name="height" />
+                <label>Distance (m):</label>
+                <input type="text" name="distance" />
             </div>
             <div class="row">
                 <label>Box mass (kg):</label>
                 <input type="text" name="mass" />
             </div>
             <div class="row">
-                <label>Box diameter (m):</label>
-                <input type="text" name="diameter" />
+                <label>Box long (m):</label>
+                <input type="text" name="long" />
             </div>
             <div class="row">
-                <label>Number of boxes:</label>
-                <input type="text" name="numBoxes" />
+                <label>Box width (m):</label>
+                <input type="text" name="width" />
             </div>
             <div class="row buttons">
-                <button type="button" class="save" id="save">Save</button>
-                <button type="button" class="cancel" id="cancel">Cancel</button>
+                <button type="button" class="start" id="start">Start</button>
             </div>
         </div>
     </div>
@@ -41,10 +40,10 @@
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/phaser/phaser.min.js"></script>
 
+<script src="asset/js/config.js"></script>
 <script src="asset/js/state/boot.js"></script>
 <script src="asset/js/state/preload.js"></script>
 <script src="asset/js/state/menu.js"></script>
-<script src="asset/js/state/config.js"></script>
 <script src="asset/js/state/gameOver.js"></script>
 <script src="asset/js/state/play.js"></script>
 
@@ -57,14 +56,9 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-//    new Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'dropzone');
-    var ode = new ProjectileOde(6, 0, 0, 10, Config.DEFAULT.vx0, Config.DEFAULT.vy0, Config.DEFAULT.vz0, 0);
-    ode.setArea(0.001432);
-    ode.setCd(1.05);
-    ode.setDensity(1.225);
-    ode.setMass(0.04);
-    ode.setWindVx(-10);
-    ode.setWindVy(0);
+    new Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'dropzone');
+    /*
+    //;
 
     var t = 0, dt = 0.2, maxT = 5;
     while (t <= maxT) {
@@ -73,6 +67,7 @@ $(document).ready(function() {
         console.log(t, ode.getCoordinate());
         t += dt;
     }
+    */
 });
 </script>
 </body>

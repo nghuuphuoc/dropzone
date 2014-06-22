@@ -38,12 +38,7 @@ Menu.prototype.create = function() {
     // Add buttons
     this._startButton = new Phaser.Button(this.game, w/2, h/2, 'buttons', this.onStartClick, this, 0, 0, 0);
     this._startButton.anchor.setTo(0.5, 0.5);
-
-    this._configButton = new Phaser.Button(this.game, w/2, h/2 + 100, 'buttons', this.onConfigClick, this, 3, 3, 3);
-    this._configButton.anchor.setTo(0.5, 0.5);
-
     this.game.add.existing(this._startButton);
-    this.game.add.existing(this._configButton);
 };
 
 /**
@@ -51,11 +46,4 @@ Menu.prototype.create = function() {
  */
 Menu.prototype.onStartClick = function() {
     this.game.state.start('play');
-};
-
-/**
- * Show the config form
- */
-Menu.prototype.onConfigClick = function() {
-    this.game.playNextState('config');
 };

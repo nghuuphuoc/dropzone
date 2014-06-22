@@ -16,26 +16,28 @@ var Box = function(game, x, y, frame, plane) {
     this.body.clearShapes();
     this.body.loadPolygon('physicsData', 'box');
 
-    this.t = 0;
-    this.TIME_INTERVAL = 1/10;
-    //this._timer = this.game.time.events.loop(this.TIME_INTERVAL, this.updatePosition, this);
-
-    this.startX = x;
-    this.startY = y;
-    this.v0 = 40;
-    this.g  = 9.8;
-
     this._hitSea    = false;
     this._hitBox    = false;
     this._hitIsland = false;
 
     this.body.onBeginContact.add(this.boxHit, this);
 
+    this.t = 0;
+    this.TIME_INTERVAL = 1;
     this._timer = this.game.time.create(true);
     this._timer.loop(this.TIME_INTERVAL, this.updatePosition, this);
     this._timer.start();
 
     this._needToUpdate = true;
+
+    var settings = Config.load();
+    this._ode = new ProjectileOde(6, x, 0, y, settings.vx0, settings.vy0, settings.vz0, 0);
+    this._ode.setArea(0.001432);
+    this._ode.setCd(1.05);
+    this._ode.setDensity(1.225);
+    this._ode.setMass(0.04);
+    this._ode.setWindVx(-10);
+    this._ode.setWindVy(0);
 };
 
 Box.prototype = Object.create(Phaser.Sprite.prototype);
@@ -104,7 +106,7 @@ Box.prototype.updatePosition = function() {
     if (this._hitIsland) {
         this._timer.stop();
         this._timer.destroy();
-        this._plane.setHitBox(this);
+        //this._plane.setHitBox(this);
         return;
     }
 
@@ -116,7 +118,7 @@ Box.prototype.updatePosition = function() {
         this.body.y += 50;
         this.loadTexture('boxHitSea', 2);
 
-        this._plane.setMissBox(this);
+        //this._plane.setMissBox(this);
         this.body.static = true;
         return;
     }
@@ -126,6 +128,11 @@ Box.prototype.updatePosition = function() {
     }
 
     this.t += this.TIME_INTERVAL;
-    this.body.x = this.startX + this.v0 * this.t;
-    this.body.y = this.startY + 0.5 * this.g * Math.pow(this.t, 2);
+    this._ode.solve(this.TIME_INTERVAL);
+    //console.log(this.t, this._ode.getVelocity(), this._ode.getCoordinate());
+
+    var coordinate = this._ode.getCoordinate();
+    console.log(this.t, coordinate);
+    this.body.x = coordinate.x;
+    this.body.y = coordinate.z;
 };

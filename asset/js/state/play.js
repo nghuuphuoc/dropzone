@@ -44,7 +44,7 @@ Play.prototype.create = function() {
     this.game.add.tileSprite(0, h - 90, w, 90, 'wave').autoScroll(-200, 0);
 
     // Add island
-    this._island = this.game.add.sprite(w/2, h - 209/2 - 90, 'island');
+    this._island = this.game.add.sprite(w - 272/2, h - 209/2 - 90, 'island');
     this._island.name = 'island';
     this.game.physics.p2.enable(this._island, true);
     this._island.body.static = true;
@@ -56,24 +56,39 @@ Play.prototype.create = function() {
     this._scoreText = this.game.add.bitmapText(w - 400, 10, 'cooper', score, 40);
 
     // Add plane
-    this._plane = new Plane(this.game, 10, 100, 0);
+    this._plane = new Plane(this.game, 550, 100, 0);
     this.game.add.existing(this._plane);
 
-    // Add keyboard controls
-    this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    this.spaceKey.onDown.add(this._plane.dropBox, this._plane);
+    // Load settings
+    var settings = Config.load();
+    // Init the value for form
+    for (var k in settings) {
+        $('#config').find('input[name="' + k + '"]').val(settings[k]);
+    }
 
-    this.escapeKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-    this.escapeKey.onDown.add(this.showConfig, this);
-
-    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.ESC]);
+    // Show the form
+    var that = this;
+    $('#config')
+        .show()
+        // Start button handler
+        .find('button.start')
+            .off('click')
+            .on('click', function() {
+                var settings = {};
+                $('#config').find('input').each(function() {
+                    settings[$(this).attr('name')] = $(this).val();
+                });
+                that.start(settings);
+            })
+            .end();
 };
 
 /**
- * Show the config form
+ * Start dropping box
  */
-Play.prototype.showConfig = function() {
-    this.game.playNextState('config');
+Play.prototype.start = function(settings) {
+    Config.save(settings);
+    this._plane.dropBox();
 };
 
 Play.prototype.increaseScore = function(type) {
