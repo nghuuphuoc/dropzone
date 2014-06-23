@@ -17,18 +17,22 @@ var Box = function(game, x, y, frame, plane) {
     this.body.loadPolygon('physicsData', 'box');
 
     this._hitSea    = false;
-    this._hitBox    = false;
     this._hitIsland = false;
 
     this.body.onBeginContact.add(this.boxHit, this);
 
     this.t = 0;
-    this.TIME_INTERVAL = 1;
+    this.TIME_INTERVAL = 0.1;
     this._timer = this.game.time.create(true);
     this._timer.loop(this.TIME_INTERVAL, this.updatePosition, this);
     this._timer.start();
 
     this._needToUpdate = true;
+
+    // To spy the box coordinate
+    this._bitmap = this.game.add.bitmapData(this.game.world.width, this.game.world.height);
+    this._bitmap.context.fillStyle = '#ffffff';
+    this.game.add.sprite(0, 0, this._bitmap);
 
     var settings = Config.load();
     this._ode = new ProjectileOde(6, x, 0, y, settings.vx0, settings.vy0, settings.vz0, 0);
@@ -54,10 +58,6 @@ Box.prototype.boxHit = function(body, shapeA, shapeB, equation) {
             case 'sea':
                 // Box hits the sea
                 this._hitSea = true;
-                break;
-
-            case 'box':
-                // Box hits each other
                 break;
 
             default:
@@ -135,4 +135,7 @@ Box.prototype.updatePosition = function() {
     console.log(this.t, coordinate);
     this.body.x = coordinate.x;
     this.body.y = coordinate.z;
+
+    this._bitmap.context.fillStyle = '#FFFF00';
+    this._bitmap.context.fillRect(coordinate.x, coordinate.z + 20, 1, 1);
 };
