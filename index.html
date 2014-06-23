@@ -12,13 +12,13 @@
     <div id="dropzone" class="container">
         <div id="config" class="config" style="display: none;">
             <div class="row">
-                <label>Initial Speed (m/s):</label>
-                <input type="text" name="speed" />
+                <label>Initial x-velocity (m/s):</label>
+                <input type="text" name="vx0" />
             </div>
-            <div class="row">
-                <label>Distance (m):</label>
-                <input type="text" name="distance" />
-            </div>
+            <!--<div class="row">
+                <label>Initial y-velocity (m/s):</label>
+                <input type="text" name="vz0" />
+            </div>-->
             <div class="row">
                 <label>Box mass (kg):</label>
                 <input type="text" name="mass" />
@@ -30,6 +30,22 @@
             <div class="row">
                 <label>Box width (m):</label>
                 <input type="text" name="width" />
+            </div>
+            <div class="row">
+                <label>Drag coefficient:</label>
+                <input type="text" name="cd" />
+            </div>
+            <div class="row">
+                <label>Air density (kg/m^3):</label>
+                <input type="text" name="density" />
+            </div>
+            <div class="row">
+                <label>Wind x-velocity (m/s):</label>
+                <input type="text" name="windVx" />
+            </div>
+            <div class="row">
+                <label>Wind y-velocity (m/s):</label>
+                <input type="text" name="windVy" />
             </div>
             <div class="row buttons">
                 <button type="button" class="start" id="start">Start</button>
@@ -57,15 +73,23 @@
 <script type="text/javascript">
 $(document).ready(function() {
     new Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'dropzone');
-    /*
-    //;
 
-    var t = 0, dt = 0.2, maxT = 5;
-    while (t <= maxT) {
-        ode.solve(dt);
-        //console.log(t, ode.getVelocity(), ode.getCoordinate());
-        console.log(t, ode.getCoordinate());
-        t += dt;
+    /*
+    // For testing the calculations
+    var settings = Config.load();
+    //console.log(settings.vx0, settings.vz0);
+    this._ode = new ProjectileOde(0, 0, 0, settings.vx0, settings.vy0, settings.vz0, 0);
+    this._ode.setArea(1 * 1 / 10000);
+    this._ode.setCd(1.05);
+    this._ode.setDensity(1.225);
+    this._ode.setMass(2);
+    //this._ode.setWindVx(-10);
+    //this._ode.setWindVy(0);
+
+    var dt = 1;
+    while (this._ode.getTime() < 5) {
+        this._ode.rungeKutta4(dt);
+        console.log(this._ode.getTime(), this._ode.getCoordinate());
     }
     */
 });

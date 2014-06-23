@@ -44,16 +44,18 @@ Play.prototype.create = function() {
     this.game.add.tileSprite(0, h - 90, w, 90, 'wave').autoScroll(-200, 0);
 
     // Add island
-    this._island = this.game.add.sprite(w - 272/2, h - 209/2 - 90, 'island');
+    this._island = this.game.add.sprite(w - 272/2 - w * 1/3, h - 209/2 - 90, 'island');
     this._island.name = 'island';
-    this.game.physics.p2.enable(this._island, true);
+    this.game.physics.p2.enable(this._island, false);
     this._island.body.static = true;
     this._island.body.clearShapes();
     this._island.body.loadPolygon('physicsData', 'island');
 
     // Add hit/miss title
     var score = Play.STATUS_TEXT.replace('{hit}', this._hit + '').replace('{miss}', this._miss + '');
-    this._scoreText = this.game.add.bitmapText(w - 400, 10, 'cooper', score, 40);
+    this._scoreText    = this.game.add.bitmapText(w - 400, 10, 'cooper', score, 30);
+    this._timeText     = this.game.add.bitmapText(w - 400, 40, 'cooper', 'Times: 0s', 30);
+    this._distanceText = this.game.add.bitmapText(w - 400, 70, 'cooper', 'Distance: 0m', 30);
 
     // Add plane
     this._plane = new Plane(this.game, 550, 100, 0);
@@ -76,7 +78,7 @@ Play.prototype.create = function() {
             .on('click', function() {
                 var settings = {};
                 $('#config').find('input').each(function() {
-                    settings[$(this).attr('name')] = $(this).val();
+                    settings[$(this).attr('name')] = parseFloat($(this).val());
                 });
                 that.start(settings);
             })
@@ -87,10 +89,33 @@ Play.prototype.create = function() {
  * Start dropping box
  */
 Play.prototype.start = function(settings) {
+    // Save the settings
     Config.save(settings);
+
+    // Reset status
+    this._distanceText.setText('Distance: ___m');
+
     this._plane.dropBox();
 };
 
+/**
+ * Get the scores
+ * It might be used to show in the GameOver screen
+ *
+ * @returns {{hit: number, miss: number}}
+ */
+Play.prototype.getScore = function() {
+    return {
+        hit: this._hit,
+        miss: this._miss
+    }
+};
+
+/**
+ * Update scores
+ *
+ * @param {String} type Can be 'hit' or 'miss'
+ */
 Play.prototype.increaseScore = function(type) {
     switch (type) {
         case 'hit':
@@ -102,22 +127,23 @@ Play.prototype.increaseScore = function(type) {
     }
     var score = Play.STATUS_TEXT.replace('{hit}', this._hit + '').replace('{miss}', this._miss + '');
     this._scoreText.setText(score);
-
-    var settings = Config.load(), numBoxes = settings.numBoxes;
-    if (this._hit + this._miss >= numBoxes) {
-        // Game over
-        this.game.state.start('gameOver');
-    }
 };
 
 /**
- * Get the scores
- * It might be used to show in the GameOver screen
- * @returns {{hit: number, miss: number}}
+ * Update the elapsed time
+ *
+ * @param {Number} time
  */
-Play.prototype.getScore = function() {
-    return {
-        hit: this._hit,
-        miss: this._miss
-    }
+Play.prototype.updateTime = function(time) {
+    this._timeText.setText('Time: ' + time + 's');
+};
+
+/**
+ * Update distance from the box to island
+ *
+ * @param {Number} boxX Box x-coordinate
+ */
+Play.prototype.updateDistance = function(boxX) {
+    var distance = (boxX - this._island.body.x) / 100;
+    this._distanceText.setText(['Distance: ', distance > 0 ? '+' : '-', Math.abs(distance).toFixed(3), 'm'].join(''));
 };

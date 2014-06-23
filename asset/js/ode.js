@@ -12,21 +12,22 @@ var Ode = function(numEquations) {
 
 Ode.prototype.constructor = Ode;
 
-Ode.prototype.getRightHandSide = function(s, q, deltaQ, ds, scale) {
+Ode.prototype._calculateNextStep = function(s, q, deltaQ, ds, scale) {
     // Abstract method
 };
 
-Ode.prototype.solve = function(ds) {
-    var dq1 = this.getRightHandSide(this._s, this._q, this._q, ds, 0.0),
-        dq2 = this.getRightHandSide(this._s + 0.5 * ds, this._q, dq1, ds, 0.5),
-        dq3 = this.getRightHandSide(this._s + 0.5 * ds, this._q, dq2, ds, 0.5),
-        dq4 = this.getRightHandSide(this._s + ds, this._q, dq3, ds, 1.0);
+Ode.prototype.rungeKutta4 = function(ds) {
+    var s = this._s,
+        q = this._q,
 
-    this._s += ds;
-    for (var i = 0; i < this._numEquations; i++) {
-        this._q[i] = this._q[i] + (dq1[i] + 2 * dq2[i]/3 + 2 * dq3[i] + dq4[i]) / 6;
+        dq1 = this._calculateNextStep(s, q, q, ds, 0.0),
+        dq2 = this._calculateNextStep(s+0.5*ds, q, dq1, ds, 0.5),
+        dq3 = this._calculateNextStep(s+0.5*ds, q, dq2, ds, 0.5),
+        dq4 = this._calculateNextStep(s+ds, q, dq3, ds, 1.0);
+
+    this._s = this._s + ds;
+
+    for (var j = 0; j < this._numEquations; j++) {
+        this._q[j] = this._q[j] + (dq1[j] + 2.0*dq2[j] + 2.0*dq3[j] + dq4[j])/6.0;
     }
-
-    //console.log(this._s);
-    //console.log(this._q);
 };

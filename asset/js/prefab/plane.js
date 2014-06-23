@@ -1,11 +1,6 @@
 var Plane = function(game, x, y, frame) {
     Phaser.Sprite.call(this, game, x, y, 'planes', frame);
     this.anchor.setTo(0.5, 0.5);
-
-    /**
-     * @type {Play}
-     */
-    this._playState = this.game.state.getCurrentState();
 };
 
 Plane.prototype = Object.create(Phaser.Sprite.prototype);
@@ -17,12 +12,4 @@ Plane.prototype.dropBox = function() {
     // Create new box
     var box = new Box(this.game, this.x + 90, this.y + 50, 1, this);
     this.game.add.existing(box);
-};
-
-Plane.prototype.setHitBox = function(box) {
-    this._playState.increaseScore('hit');
-};
-
-Plane.prototype.setMissBox = function(box) {
-    this._playState.increaseScore('miss');
 };

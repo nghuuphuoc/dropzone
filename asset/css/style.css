@@ -46,6 +46,7 @@ body {
 .config button {
     background: url(../img/buttons.png) top left no-repeat;
     border: 0;
+    cursor: pointer;
     width: 167px;
     height: 81px;
     text-indent: -9999px;

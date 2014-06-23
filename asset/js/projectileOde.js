@@ -1,5 +1,6 @@
-var ProjectileOde = function(numEquations, x0, y0, z0, vx0, vy0, vz0, time) {
-    Ode.call(this, numEquations);
+// Ode stands for Ordinary Differential Equations
+var ProjectileOde = function(x0, y0, z0, vx0, vy0, vz0, time) {
+    Ode.call(this, 6);
 
     this._s = time;
     this._q = [vx0, x0, vy0, y0, vz0, z0];
@@ -12,33 +13,42 @@ var ProjectileOde = function(numEquations, x0, y0, z0, vx0, vy0, vz0, time) {
     this._windVy = 0;   // Wind Y-velocity (m/s)
 };
 
+// Gravity constant
 ProjectileOde.G = 9.81;
 
 ProjectileOde.prototype = Object.create(Ode.prototype);
 ProjectileOde.prototype.constructor = ProjectileOde;
 
+// Setters
+
 ProjectileOde.prototype.setDensity = function(density) {
     this._density = density;
+    return this;
 };
 
 ProjectileOde.prototype.setCd = function(cd) {
     this._cd = cd;
+    return this;
 };
 
 ProjectileOde.prototype.setArea = function(area) {
     this._area = area;
+    return this;
 };
 
 ProjectileOde.prototype.setMass = function(mass) {
     this._mass = mass;
+    return this;
 };
 
 ProjectileOde.prototype.setWindVx = function(windVx) {
     this._windVx = windVx;
+    return this;
 };
 
 ProjectileOde.prototype.setWindVy = function(windVy) {
     this._windVy = windVy;
+    return this;
 };
 
 ProjectileOde.prototype.getVelocity = function() {
@@ -49,12 +59,21 @@ ProjectileOde.prototype.getVelocity = function() {
     }
 };
 
+// Getters
+
 ProjectileOde.prototype.getCoordinate = function() {
     return {
         x: this._q[1],
         y: this._q[3],
         z: this._q[5]
     }
+};
+
+/**
+ * @returns {Number}
+ */
+ProjectileOde.prototype.getTime = function() {
+    return this._s;
 };
 
 /**
@@ -72,7 +91,7 @@ ProjectileOde.prototype.getCoordinate = function() {
  * @param {Number} ds
  * @param {Number} scale
  */
-ProjectileOde.prototype.getRightHandSide = function(s, q, deltaQ, ds, scale) {
+ProjectileOde.prototype._calculateNextStep = function(s, q, deltaQ, ds, scale) {
     var newQ = [];
     for (var i = 0; i < 6; i++) {
         newQ[i] = q[i] + scale * deltaQ[i];
@@ -91,9 +110,9 @@ ProjectileOde.prototype.getRightHandSide = function(s, q, deltaQ, ds, scale) {
     return [
         -ds * fd * vx / (this._mass * v),
         ds * vx,
-        ds * fd * vy / (this._mass * v),
+        -ds * fd * vy / (this._mass * v),
         ds * vy,
-        ds * (ProjectileOde.G - fd * vz / (this._mass * v)),
+        ds * (ProjectileOde.G - (fd * vz / (this._mass * v))),
         ds * vz
     ];
 };

@@ -12,7 +12,12 @@ var Box = function(game, x, y, frame, plane) {
      */
     this._plane = plane;
 
-    this.game.physics.p2.enable(this, true);
+    /**
+     * @type {Play}
+     */
+    this._playState = this.game.state.getCurrentState();
+
+    this.game.physics.p2.enable(this, false);
     this.body.clearShapes();
     this.body.loadPolygon('physicsData', 'box');
 
@@ -21,7 +26,6 @@ var Box = function(game, x, y, frame, plane) {
 
     this.body.onBeginContact.add(this.boxHit, this);
 
-    this.t = 0;
     this.TIME_INTERVAL = 0.1;
     this._timer = this.game.time.create(true);
     this._timer.loop(this.TIME_INTERVAL, this.updatePosition, this);
@@ -34,14 +38,17 @@ var Box = function(game, x, y, frame, plane) {
     this._bitmap.context.fillStyle = '#ffffff';
     this.game.add.sprite(0, 0, this._bitmap);
 
+    /**
+     * @type {Config.DEFAULT}
+     */
     var settings = Config.load();
-    this._ode = new ProjectileOde(6, x, 0, y, settings.vx0, settings.vy0, settings.vz0, 0);
-    this._ode.setArea(0.001432);
-    this._ode.setCd(1.05);
-    this._ode.setDensity(1.225);
-    this._ode.setMass(0.04);
-    this._ode.setWindVx(-10);
-    this._ode.setWindVy(0);
+    this._ode = new ProjectileOde(x, 0, y, settings.vx0, settings.vy0, settings.vz0, 0);
+    this._ode.setArea(settings.long * settings.width / 10000)
+             .setCd(settings.cd)
+             .setDensity(settings.density)
+             .setMass(settings.mass)
+             .setWindVx(settings.windVx)
+             .setWindVy(settings.windVy);
 };
 
 Box.prototype = Object.create(Phaser.Sprite.prototype);
@@ -69,6 +76,11 @@ Box.prototype.boxHit = function(body, shapeA, shapeB, equation) {
 Box.prototype.update = function() {
     if (!this._needToUpdate) {
         return;
+    }
+
+    if (this._hitIsland || this._hitSea) {
+        // Update distance from the box to the island
+        this._playState.updateDistance(this.body.x);
     }
 
     if (this._hitIsland) {
@@ -102,40 +114,45 @@ Box.prototype.destroyBox = function() {
     }, 0);
 };
 
+/**
+ * Update the box position after each interval time
+ */
 Box.prototype.updatePosition = function() {
     if (this._hitIsland) {
-        this._timer.stop();
         this._timer.destroy();
-        //this._plane.setHitBox(this);
+        // Update the miss scores
+        this._playState.increaseScore('hit');
+
         return;
     }
 
     if (this._hitSea) {
-        this.game.time.events.remove(this._timer);
         this._timer.destroy();
         this.body.clearShapes();
 
         this.body.y += 50;
         this.loadTexture('boxHitSea', 2);
 
-        //this._plane.setMissBox(this);
+        // Update the miss scores
+        this._playState.increaseScore('miss');
         this.body.static = true;
+
         return;
     }
 
     if (this._timer.ms % 50 == 0) {
-        //this.frame = this.game.rnd.integerInRange(0, 2);
+        this.frame = this.game.rnd.integerInRange(0, 2);
     }
 
-    this.t += this.TIME_INTERVAL;
-    this._ode.solve(this.TIME_INTERVAL);
-    //console.log(this.t, this._ode.getVelocity(), this._ode.getCoordinate());
-
+    // Update the box position
+    this._ode.rungeKutta4(this.TIME_INTERVAL);
     var coordinate = this._ode.getCoordinate();
-    console.log(this.t, coordinate);
     this.body.x = coordinate.x;
     this.body.y = coordinate.z;
 
+    // Update the elapsed time
+    this._playState.updateTime(this._ode.getTime().toFixed(3));
+
     this._bitmap.context.fillStyle = '#FFFF00';
-    this._bitmap.context.fillRect(coordinate.x, coordinate.z + 20, 1, 1);
+    this._bitmap.context.fillRect(coordinate.x, coordinate.z + 20, 2, 2);
 };
