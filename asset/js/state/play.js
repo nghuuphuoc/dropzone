@@ -59,6 +59,13 @@ Play.prototype.create = function() {
 
     // Add plane
     this._plane = new Plane(this.game, 550, 100, 0);
+
+    // Allow to drag the plane
+    this._plane.inputEnabled = true;
+    this._plane.input.enableDrag(true);
+    console.log(this._plane.events);
+    this._plane.events.onDragStop.add(this._onDragPlane);
+
     this.game.add.existing(this._plane);
 
     // Load settings
@@ -83,6 +90,15 @@ Play.prototype.create = function() {
                 that.start(settings);
             })
             .end();
+};
+
+/**
+ * Called after dragging the plane
+ *
+ * @param {Plane} plane
+ */
+Play.prototype._onDragPlane = function(plane) {
+
 };
 
 /**

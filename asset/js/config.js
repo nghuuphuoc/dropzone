@@ -14,7 +14,7 @@ Config.DEFAULT = {
     width: 1,
 
     // Box mass (kg)
-    mass: 0.1,
+    mass: 1,
 
     // Drag coefficients (1.05 - 1.07 for cube)
     cd: 1.05,
