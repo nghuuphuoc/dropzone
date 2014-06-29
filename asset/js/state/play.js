@@ -47,24 +47,25 @@ Play.prototype.create = function() {
     this._island = this.game.add.sprite(w - 272/2 - w * 1/3, h - 209/2 - 90, 'island');
     this._island.name = 'island';
     this.game.physics.p2.enable(this._island, false);
+    this._island.anchor.setTo(0.5, 0.5);
     this._island.body.static = true;
     this._island.body.clearShapes();
     this._island.body.loadPolygon('physicsData', 'island');
 
+    // Add plane
+    this._plane = new Plane(this.game, 100, 70, 0);
+
     // Add hit/miss title
     var score = Play.STATUS_TEXT.replace('{hit}', this._hit + '').replace('{miss}', this._miss + '');
-    this._scoreText    = this.game.add.bitmapText(w - 400, 10, 'cooper', score, 30);
-    this._timeText     = this.game.add.bitmapText(w - 400, 40, 'cooper', 'Times: 0s', 30);
-    this._distanceText = this.game.add.bitmapText(w - 400, 70, 'cooper', 'Distance: 0m', 30);
-
-    // Add plane
-    this._plane = new Plane(this.game, 550, 100, 0);
+    this._scoreText    = this.game.add.bitmapText(w - 400, 10, 'cooper', score, 20);
+    this._timeText     = this.game.add.bitmapText(w - 400, 35, 'cooper', 'Times: 0s', 20);
+    this._heightText   = this.game.add.bitmapText(w - 400, 60, 'cooper', 'Height: ' + (h - this._sea.height - this._plane.y - 50).toFixed(2) + 'm', 20);
+    this._distanceText = this.game.add.bitmapText(w - 400, 85, 'cooper', 'Distance: ' + (this._island.body.x - this._plane.x - 90).toFixed(2) + 'm', 20);
 
     // Allow to drag the plane
     this._plane.inputEnabled = true;
     this._plane.input.enableDrag(true);
-    console.log(this._plane.events);
-    this._plane.events.onDragStop.add(this._onDragPlane);
+    this._plane.events.onDragStop.add(this._onDragPlane, this);
 
     this.game.add.existing(this._plane);
 
@@ -98,7 +99,8 @@ Play.prototype.create = function() {
  * @param {Plane} plane
  */
 Play.prototype._onDragPlane = function(plane) {
-
+    this._heightText.setText('Height: ' + (this.game.height - this._sea.height - plane.y - 60).toFixed(2) + 'm');
+    this._distanceText.setText('Distance: ' + (this._island.body.x - this._plane.x - 90).toFixed(2) + 'm');
 };
 
 /**
@@ -108,23 +110,7 @@ Play.prototype.start = function(settings) {
     // Save the settings
     Config.save(settings);
 
-    // Reset status
-    this._distanceText.setText('Distance: ___m');
-
     this._plane.dropBox();
-};
-
-/**
- * Get the scores
- * It might be used to show in the GameOver screen
- *
- * @returns {{hit: number, miss: number}}
- */
-Play.prototype.getScore = function() {
-    return {
-        hit: this._hit,
-        miss: this._miss
-    }
 };
 
 /**
@@ -152,14 +138,4 @@ Play.prototype.increaseScore = function(type) {
  */
 Play.prototype.updateTime = function(time) {
     this._timeText.setText('Time: ' + time + 's');
-};
-
-/**
- * Update distance from the box to island
- *
- * @param {Number} boxX Box x-coordinate
- */
-Play.prototype.updateDistance = function(boxX) {
-    var distance = (boxX - this._island.body.x) / 100;
-    this._distanceText.setText(['Distance: ', distance > 0 ? '+' : '-', Math.abs(distance).toFixed(3), 'm'].join(''));
 };

@@ -14,7 +14,7 @@ Config.DEFAULT = {
     width: 1,
 
     // Box mass (kg)
-    mass: 1,
+    mass: 10,
 
     // Drag coefficients (1.05 - 1.07 for cube)
     cd: 1.05,
@@ -23,7 +23,7 @@ Config.DEFAULT = {
     density: 1.225,
 
     // Wind velocity (m/s)
-    windVx: -10,
+    windVx: 20,
     windVy: 0
 };
 

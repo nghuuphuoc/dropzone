@@ -78,11 +78,6 @@ Box.prototype.update = function() {
         return;
     }
 
-    if (this._hitIsland || this._hitSea) {
-        // Update distance from the box to the island
-        this._playState.updateDistance(this.body.x);
-    }
-
     if (this._hitIsland) {
         this.destroyBox();
         return;
@@ -106,6 +101,8 @@ Box.prototype.destroyBox = function() {
     this._timer.stop();
     this._timer.destroy();
     var that = this;
+
+    this._bitmap.clear();
 
     // Since the last loop of timer might still call Box.prototype.update, I need to ensure the timer is really destroyed
     var t = setTimeout(function() {
