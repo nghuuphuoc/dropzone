@@ -15,10 +15,6 @@
                 <label>Initial x-velocity (m/s):</label>
                 <input type="text" name="vx0" />
             </div>
-            <!--<div class="row">
-                <label>Initial y-velocity (m/s):</label>
-                <input type="text" name="vz0" />
-            </div>-->
             <div class="row">
                 <label>Box mass (kg):</label>
                 <input type="text" name="mass" />
@@ -72,25 +68,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
     new Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'dropzone');
-
-    /*
-    // For testing the calculations
-    var settings = Config.load();
-    //console.log(settings.vx0, settings.vz0);
-    this._ode = new ProjectileOde(0, 0, 0, settings.vx0, settings.vy0, settings.vz0, 0);
-    this._ode.setArea(1 * 1 / 10000);
-    this._ode.setCd(1.05);
-    this._ode.setDensity(1.225);
-    this._ode.setMass(2);
-    //this._ode.setWindVx(-10);
-    //this._ode.setWindVy(0);
-
-    var dt = 1;
-    while (this._ode.getTime() < 5) {
-        this._ode.rungeKutta4(dt);
-        console.log(this._ode.getTime(), this._ode.getCoordinate());
-    }
-    */
 });
 </script>
 </body>

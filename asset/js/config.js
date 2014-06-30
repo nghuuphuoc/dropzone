@@ -7,7 +7,7 @@ Config.DEFAULT = {
     // Init velocity (m/s)
     vx0: 100,
     vy0: 0,
-    vz0: 35,
+    vz0: 0,
 
     // Box size (m)
     long: 1,
