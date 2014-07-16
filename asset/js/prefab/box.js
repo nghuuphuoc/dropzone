@@ -85,7 +85,7 @@ Box.prototype.update = function() {
 
     if (this._hitSea) {
         this.body.y += 0.4;
-        this.frame = 2;
+        //this.frame = 2;
 
         if (this.body.y > this.game.world.height + 20) {
             this.destroyBox();
@@ -137,9 +137,9 @@ Box.prototype.updatePosition = function() {
         return;
     }
 
-    if (this._timer.ms % 50 == 0) {
-        this.frame = this.game.rnd.integerInRange(0, 2);
-    }
+//    if (this._timer.ms % 50 == 0) {
+//        this.frame = this.game.rnd.integerInRange(0, 2);
+//    }
 
     // Update the box position
     this._ode.rungeKutta4(this.TIME_INTERVAL);
