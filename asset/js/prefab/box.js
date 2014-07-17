@@ -49,6 +49,14 @@ var Box = function(game, x, y, frame, plane) {
              .setMass(settings.mass)
              .setWindVx(settings.windVx)
              .setWindVy(settings.windVy);
+
+    // Calculate the scale ratio
+    // settings.width <--> sprite with <--> scale
+    //             5m <--> 100px       <--> 0.5
+    //            10m <--> 200px       <--> 1
+
+    var scale = settings.width / 10;
+    this.scale.setTo(scale, scale);
 };
 
 Box.prototype = Object.create(Phaser.Sprite.prototype);
@@ -84,8 +92,9 @@ Box.prototype.update = function() {
     }
 
     if (this._hitSea) {
+        this.scale.setTo(1, 1);
         this.body.y += 0.4;
-        //this.frame = 2;
+        this.frame = 2;
 
         if (this.body.y > this.game.world.height + 20) {
             this.destroyBox();

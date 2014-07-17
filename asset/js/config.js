@@ -10,8 +10,8 @@ Config.DEFAULT = {
     vz0: 0,
 
     // Box size (m)
-    long: 1,
-    width: 1,
+    long: 5,
+    width: 5,
 
     // Box mass (kg)
     mass: 10,

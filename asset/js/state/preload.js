@@ -33,11 +33,12 @@ Preload.prototype.preload = function() {
     this.load.image('wave',         'asset/img/wave.png');
 
     // Sprites
-    //this.load.spritesheet('boxes',     'asset/img/boxes.png',     97,  108,   3);
-    this.load.spritesheet('boxes',     'asset/img/parachutes.png', 100, 115,   6);
-    this.load.spritesheet('boxHitSea', 'asset/img/boxHitSea.png',  42,  42,    3);
-    this.load.spritesheet('buttons',   'asset/img/buttons.png',    167, 81,    6);
-    this.load.spritesheet('planes',    'asset/img/planes.png',     497, 151.8, 5);
+    //this.load.spritesheet('boxes',     'asset/img/parachutes.png', 100, 115,   6);
+    //this.load.spritesheet('boxes',     'asset/img/parachutes-250.png', 250, 275,   6);
+    this.load.spritesheet('boxes',     'asset/img/parachutes-200.png', 200, 220,   6);
+    this.load.spritesheet('boxHitSea', 'asset/img/boxHitSea.png',      42,  42,    3);
+    this.load.spritesheet('buttons',   'asset/img/buttons.png',        167, 81,    6);
+    this.load.spritesheet('planes',    'asset/img/planes.png',         497, 151.8, 5);
 
     // Fonts
     this.load.bitmapFont('cooper', 'asset/font/cooper.png', 'asset/font/cooper.fnt');
