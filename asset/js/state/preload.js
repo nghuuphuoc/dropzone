@@ -26,6 +26,7 @@ Preload.prototype.preload = function() {
     this.load.image('gameOver',     'asset/img/gameOver.png');
     this.load.image('island',       'asset/img/island.png');
     this.load.image('islandShadow', 'asset/img/islandShadow.png');
+    this.load.image('logo',         'asset/img/logo.png');
     this.load.image('plane',        'asset/img/plane.png');
     this.load.image('sea',          'asset/img/sea.png');
     this.load.image('sky',          'asset/img/sky.png');
@@ -53,8 +54,8 @@ Preload.prototype.create = function() {
 
 Preload.prototype.update = function() {
     if (this._ready) {
-        //this.game.state.start('menu');
-        this.game.state.start('play');
+        this.game.state.start('menu');
+        //this.game.state.start('play');
     }
 };
 

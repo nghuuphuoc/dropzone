@@ -40,6 +40,9 @@ Play.prototype.create = function() {
     this.game.physics.p2.enable(this._sea, false);
     this._sea.body.static = true;
 
+    // Add logo
+    this.game.add.sprite(10, h - 230, 'logo');
+
     // Add wave
     this.game.add.tileSprite(0, h - 90, w, 90, 'wave').autoScroll(-200, 0);
 
