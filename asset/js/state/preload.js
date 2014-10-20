@@ -38,7 +38,7 @@ Preload.prototype.preload = function() {
     //this.load.spritesheet('boxes',     'asset/img/parachutes-250.png', 250, 275,   6);
     this.load.spritesheet('boxes',     'asset/img/parachutes-200.png', 200, 220,   6);
     this.load.spritesheet('boxHitSea', 'asset/img/boxHitSea.png',      42,  42,    3);
-    this.load.spritesheet('buttons',   'asset/img/buttons.png',        167, 81,    6);
+    this.load.spritesheet('buttons',   'asset/img/buttons.png',        100, 49.16, 6);
     this.load.spritesheet('planes',    'asset/img/planes.png',         497, 151.8, 5);
 
     // Fonts
@@ -54,8 +54,8 @@ Preload.prototype.create = function() {
 
 Preload.prototype.update = function() {
     if (this._ready) {
-        this.game.state.start('menu');
-        //this.game.state.start('play');
+        //this.game.state.start('menu');
+        this.game.state.start('play');
     }
 };
 

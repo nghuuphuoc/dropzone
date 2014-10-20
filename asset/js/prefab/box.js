@@ -41,7 +41,7 @@ var Box = function(game, x, y, frame, plane) {
     /**
      * @type {Config.DEFAULT}
      */
-    var settings = Config.load();
+    var settings = Config.get();
     this._ode = new ProjectileOde(x, 0, y, settings.vx0, settings.vy0, settings.vz0, 0);
     this._ode.setArea(settings.long * settings.width / 10000)
              .setCd(settings.cd)

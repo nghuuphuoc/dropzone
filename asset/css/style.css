@@ -39,21 +39,27 @@ body {
     height: 20px;
 }
 .config .buttons {
-    height: 80px;
+    height: 50px;
     position: absolute;
-    left: 40px;
+    left: 50px;
     bottom: 30px;
 }
 .config button {
     background: url(../img/buttons.png) top left no-repeat;
     border: 0;
     cursor: pointer;
-    width: 167px;
-    height: 81px;
+    width: 100px;
+    height: 49.16px;
     text-indent: -9999px;
 }
+.config button:focus {
+    border: none;
+}
+.config button.default {
+    background-position: 0 -49.16px;
+}
 .config button.save {
-    background-position: 0 -328px;
+    background-position: 0 -195px;
 }
 .config button.start {
     background-position: 0 0px;

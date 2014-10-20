@@ -73,7 +73,7 @@ Play.prototype.create = function() {
     this.game.add.existing(this._plane);
 
     // Load settings
-    var settings = Config.load();
+    var settings = Config.get();
     // Init the value for form
     for (var k in settings) {
         $('#config').find('input[name="' + k + '"]').val(settings[k]);
@@ -83,17 +83,21 @@ Play.prototype.create = function() {
     var that = this;
     $('#config')
         .show()
+        // Load default settings handler
+        .on('click', '#loadDefaultButton', function() {
+            var settings = Config.DEFAULT;
+            for (var k in settings) {
+                $('#config').find('input[name="' + k + '"]').val(settings[k]);
+            }
+        })
         // Start button handler
-        .find('button.start')
-            .off('click')
-            .on('click', function() {
-                var settings = {};
-                $('#config').find('input').each(function() {
-                    settings[$(this).attr('name')] = parseFloat($(this).val());
-                });
-                that.start(settings);
-            })
-            .end();
+        .on('click', '#startButton', function() {
+            var settings = {};
+            $('#config').find('input').each(function() {
+                settings[$(this).attr('name')] = parseFloat($(this).val());
+            });
+            that.start(settings);
+        });
 };
 
 /**
@@ -110,8 +114,7 @@ Play.prototype._onDragPlane = function(plane) {
  * Start dropping box
  */
 Play.prototype.start = function(settings) {
-    // Save the settings
-    Config.save(settings);
+    Config.set(settings);
 
     this._plane.dropBox();
 };

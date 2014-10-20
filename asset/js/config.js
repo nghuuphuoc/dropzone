@@ -20,10 +20,10 @@ Config.DEFAULT = {
     cd: 1.05,
 
     // Air density (kg/m^3)
-    density: 1.225,
+    density: 0, //1.225,
 
     // Wind velocity (m/s)
-    windVx: 20,
+    windVx: 0,
     windVy: 0
 };
 
@@ -31,25 +31,25 @@ Config.DEFAULT = {
 Config.SETTING_KEY = 'settings';
 
 /**
- * Load the settings
+ * Save the settings
+ *
+ * @param {Object} settings
+ */
+Config.set = function(settings) {
+    // Save the settings
+    localStorage.setItem(Config.SETTING_KEY, JSON.stringify(settings));
+};
+
+/**
+ * Get the settings
  *
  * @returns {Object}
  */
-Config.load = function() {
+Config.get = function() {
     var settings = localStorage.getItem(Config.SETTING_KEY);
     if (settings) {
         settings = JSON.parse(settings);
     }
     settings = $.extend({}, Config.DEFAULT, settings);
     return settings;
-};
-
-/**
- * Save the settings
- *
- * @param {Object} settings
- */
-Config.save = function(settings) {
-    // Save the settings
-    localStorage.setItem(Config.SETTING_KEY, JSON.stringify(settings));
 };
