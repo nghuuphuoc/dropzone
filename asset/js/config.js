@@ -20,7 +20,7 @@ Config.DEFAULT = {
     cd: 1.05,
 
     // Air density (kg/m^3)
-    density: 0, //1.225,
+    density: 1.225,
 
     // Wind velocity (m/s)
     windVx: 0,

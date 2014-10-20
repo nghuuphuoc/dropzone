@@ -54,8 +54,8 @@ Preload.prototype.create = function() {
 
 Preload.prototype.update = function() {
     if (this._ready) {
-        //this.game.state.start('menu');
-        this.game.state.start('play');
+        this.game.state.start('menu');
+        //this.game.state.start('play');
     }
 };
 
