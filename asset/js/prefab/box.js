@@ -55,8 +55,13 @@ var Box = function(game, x, y, frame, plane) {
     //             5m <--> 100px       <--> 0.5
     //            10m <--> 200px       <--> 1
 
-    var scale = settings.width / 10;
-    this.scale.setTo(scale, scale);
+    // Scale if width or long is greater than 5
+    if (settings.width >=5 || settings.long >= 5) {
+        var scale = settings.width / 10;
+        this.scale.setTo(scale, scale);
+    } else {
+        this.scale.setTo(0.5, 0.5);
+    }
 };
 
 Box.prototype = Object.create(Phaser.Sprite.prototype);
